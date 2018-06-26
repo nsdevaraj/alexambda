@@ -1,14 +1,15 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
-const Alexa = require('ask-sdk');
-let skill;
-const Alexa = require('ask-sdk-core');
-const express = require('express')
+const Alexa = require('ask-sdk'); 
+const express = require('express');
+const bodyParser = require('body-parser');
 const app = express()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server);
-
-var dashboardname={username:"",name:"Retail Analytics",lasttime:"September 2016",title1:"Location View",title2:"Sales Group view"};
+let port = process.env.PORT || 3000;
+app.use(bodyParser.json());
+let skill;
+let dashboardname={username:"",name:"Retail Analytics",lasttime:"September 2016",title1:"Location View",title2:"Sales Group view"};
 
 // Creates the website server on the port #
 server.listen(port, function () {
@@ -280,4 +281,42 @@ exports.handler = async function (event, context) {
         .create();
     }
     return skill.invoke(event,context);
-  } 
+}
+
+app.post('/', function(req, res) {
+
+    if (!skill) {
+
+      skill = Alexa.SkillBuilders.custom()
+        .addRequestHandlers(
+			ThankHandler,
+			FilterHandler,
+			ExplainHandler,
+			DashboardHandler,
+			LaunchRequestHandler,
+			ViewHandler,
+			LocationHandler,
+			OpenIntentHandler,
+			ZoomHandler,
+			HelpIntentHandler,
+			KPIHandler,
+			CancelAndStopIntentHandler,
+			SessionEndedRequestHandler
+        )
+		.addErrorHandlers(ErrorHandler)
+        .create();
+
+    }
+
+    skill.invoke(req.body)
+      .then(function(responseBody) {
+        res.json(responseBody);
+      })
+      .catch(function(error) {
+        console.log(error);
+        res.status(500).send('Error during the request');
+      });
+
+});
+
+ 
