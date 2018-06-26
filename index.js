@@ -1,6 +1,7 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
-
+const Alexa = require('ask-sdk');
+let skill;
 const Alexa = require('ask-sdk-core');
 const express = require('express')
 const app = express()
@@ -8,6 +9,12 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server);
 
 var dashboardname={username:"",name:"Retail Analytics",lasttime:"September 2016",title1:"Location View",title2:"Sales Group view"};
+
+// Creates the website server on the port #
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
+});
+
 io.on('connection', function(socket){
 
   socket.on('userdashboardinfo', function(data){
@@ -251,23 +258,26 @@ const ThankHandler = {
   }
 };
 
-const skillBuilder = Alexa.SkillBuilders.custom();
-
-exports.handler = skillBuilder
-  .addRequestHandlers(
-    ThankHandler,
-	FilterHandler,
-	ExplainHandler,
-	DashboardHandler,
-    LaunchRequestHandler,
-	ViewHandler,
-	LocationHandler,
-    OpenIntentHandler,
-	ZoomHandler,
-    HelpIntentHandler,
-	KPIHandler,
-    CancelAndStopIntentHandler,
-    SessionEndedRequestHandler
-  )
-  .addErrorHandlers(ErrorHandler)
-  .lambda();
+exports.handler = async function (event, context) {
+    if (!skill) {
+      skill = Alexa.SkillBuilders.custom()
+        .addRequestHandlers( 
+			ThankHandler,
+			FilterHandler,
+			ExplainHandler,
+			DashboardHandler,
+			LaunchRequestHandler,
+			ViewHandler,
+			LocationHandler,
+			OpenIntentHandler,
+			ZoomHandler,
+			HelpIntentHandler,
+			KPIHandler,
+			CancelAndStopIntentHandler,
+			SessionEndedRequestHandler
+        )
+		.addErrorHandlers(ErrorHandler)
+        .create();
+    }
+    return skill.invoke(event,context);
+  } 
