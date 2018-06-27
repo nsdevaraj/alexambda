@@ -18,7 +18,6 @@ server.listen(port, function () {
 
 // Express Routing
 app.use(express.static(__dirname + '/public'));
-app.engine('html', require('ejs').renderFile);
 io.on('connection', function(socket){
 
   socket.on('userdashboardinfo', function(data){
@@ -285,7 +284,7 @@ exports.handler = async function (event, context) {
     }
     return skill.invoke(event,context);
 }
-
+/*
 app.post('/', function(req, res) {
 
     if (!skill) {
@@ -322,4 +321,4 @@ app.post('/', function(req, res) {
 
 });
 
- 
+ */
