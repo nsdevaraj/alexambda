@@ -280,7 +280,7 @@ exports.handler = async function (event, context) {
 			SessionEndedRequestHandler
         )
 		.addErrorHandlers(ErrorHandler)
-        .create();
+        .lambda();
     }
     return skill.invoke(event,context);
 } */
