@@ -260,7 +260,7 @@ const ThankHandler = {
       .getResponse();
   }
 };
-/*
+/* Laambda code 
 exports.handler = async function (event, context) {
     if (!skill) {
       skill = Alexa.SkillBuilders.custom()
