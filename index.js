@@ -285,7 +285,7 @@ exports.handler = async function (event, context) {
     }
     return skill.invoke(event,context);
 }
-/*
+
 app.post('/', function(req, res) {
 
     if (!skill) {
@@ -322,4 +322,4 @@ app.post('/', function(req, res) {
 
 });
 
-*/
+ 
