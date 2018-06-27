@@ -260,7 +260,7 @@ const ThankHandler = {
       .getResponse();
   }
 };
-
+/*
 exports.handler = async function (event, context) {
     if (!skill) {
       skill = Alexa.SkillBuilders.custom()
@@ -283,7 +283,7 @@ exports.handler = async function (event, context) {
         .create();
     }
     return skill.invoke(event,context);
-}
+} */
 
 app.post('/', function(req, res) {
 
