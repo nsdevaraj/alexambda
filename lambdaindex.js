@@ -1,23 +1,7 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
-const Alexa = require('ask-sdk'); 
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express()
-const server = require('http').createServer(app) 
-let port = process.env.PORT || 3000;
-app.use(bodyParser.json());
-let skill;
-let dashboardname={username:"",name:"Retail Analytics",lasttime:"September 2016",title1:"Location View",title2:"Sales Group view"};
 
-// Creates the website server on the port #
-server.listen(port, function () {
-  console.log('Server listening at port %d', port);
-});
-
-// Express Routing
-app.use(express.static(__dirname + '/public')); 
-
+const Alexa = require('ask-sdk-core');
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
@@ -106,12 +90,6 @@ const SessionEndedRequestHandler = {
 
 const ErrorHandler = {
   canHandle() {
-    return true;
-  },
-  handle(handlerInput, error) {
-    console.log(`Error handled: ${error.message}`);
-
-    return handlerInput.responseBuilder
       .speak('Sorry, I can\'t understand the command. Please say again.')
       .reprompt('Sorry, I can\'t understand the command. Please say again.')
       .getResponse();
@@ -237,9 +215,9 @@ const ThankHandler = {
   }
 };
 // Laambda code 
-exports.handler = async function (event, context) {
-    if (!skill) {
-      skill = Alexa.SkillBuilders.custom()
+const skillBuilder = Alexa.SkillBuilders.custom();
+
+exports.handler = skillBuilder
         .addRequestHandlers( 
 			ThankHandler,
 			FilterHandler,
@@ -257,9 +235,7 @@ exports.handler = async function (event, context) {
         )
 		.addErrorHandlers(ErrorHandler)
         .lambda();
-    }
-    return skill.invoke(event,context);
-} 
+
 /*
 app.post('/', function(req, res) {
 
