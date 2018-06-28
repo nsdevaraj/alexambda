@@ -261,9 +261,9 @@ const ThankHandler = {
   }
 };
 /* Laambda code 
-exports.handler = async function (event, context) {
-    if (!skill) {
-      skill = Alexa.SkillBuilders.custom()
+const skillBuilder = Alexa.SkillBuilders.custom();
+
+exports.handler = skillBuilder
         .addRequestHandlers( 
 			ThankHandler,
 			FilterHandler,
@@ -271,9 +271,6 @@ exports.handler = async function (event, context) {
 			DashboardHandler,
 			LaunchRequestHandler,
 			ViewHandler,
-			LocationHandler,
-			OpenIntentHandler,
-			ZoomHandler,
 			HelpIntentHandler,
 			KPIHandler,
 			CancelAndStopIntentHandler,
@@ -281,9 +278,8 @@ exports.handler = async function (event, context) {
         )
 		.addErrorHandlers(ErrorHandler)
         .lambda();
-    }
-    return skill.invoke(event,context);
-} */
+
+ */
 
 app.post('/', function(req, res) {
 

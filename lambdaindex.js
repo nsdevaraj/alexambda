@@ -2,6 +2,9 @@
 /* eslint-disable  no-console */
 
 const Alexa = require('ask-sdk-core');
+let skill;
+let dashboardname={username:"",name:"Retail Analytics",lasttime:"September 2016",title1:"Location View",title2:"Sales Group view"};
+
 const LaunchRequestHandler = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
@@ -87,7 +90,6 @@ const SessionEndedRequestHandler = {
     return handlerInput.responseBuilder.getResponse();
   },
 };
-
 
 const ErrorHandler = {
   canHandle() {
